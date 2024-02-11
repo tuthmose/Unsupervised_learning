@@ -1,0 +1,36 @@
+[tool.poetry]
+name = "unsupervised_learning"
+version = "0.1.0"
+description = ""
+authors = ["gmancini <giordano.mancini@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "3.11.4"
+numpy = "1.26"
+scipy = "1.11.3"
+pandas = "2.1.1"
+scikit-learn = "1.3"
+scikit-learn-extra = "0.3.0"
+mendeleev = "^0.14.0"
+matplotlib = "3.8"
+nose2 = "^0.14.0"
+cython = "^3.0.7"
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "3.5.0"
+shellcheck-py = "^0.9.0.5"
+pylint = "3.0.1"
+black = "^23.9.1"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.4.2"
+pytest-randomly = "*"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+# pyproject.toml
+[tool.pylint.format]
+max-line-length = "88"

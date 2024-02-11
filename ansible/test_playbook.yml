@@ -1,0 +1,12 @@
+---
+- name: "Test Playbook"
+  hosts: localhost
+  vars:
+    - test_msg: "Pippo"
+
+  tasks:
+
+    - name: "Print message"
+      ansible.builtin.debug:
+        msg: "{{ test_msg }}"
+...
