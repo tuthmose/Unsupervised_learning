@@ -1,4 +1,7 @@
+from typing import Tuple
 import numpy as np
+from numpy.typing import NDArray
+
 import random
 import sys
 
@@ -37,8 +40,8 @@ class gromos_clustering(generic_cluster_method):
         assert isinstance( self.scaledist, bool)
         assert isinstance( self.keep_data, bool)
         
-    def _run_gromos(self, N: int, D: nd.ndarray) -> np.ndarray:
-        clusters: np.ndarray = -1*np.ones(self.N, dtype='int')
+    def _run_gromos(self, N: int, D: nd.ndarray) -> NDArray[np.float32]:
+        clusters: NDArray[np.float32] = -1*np.ones(self.N, dtype='int')
         a: int = 0
         while True:
             #index of point non assigned with highest number of neighbours
@@ -53,6 +56,6 @@ class gromos_clustering(generic_cluster_method):
                 break
         return clusters
 
-    def __call__(self, N: int, D: nd.ndarray) -> np.ndarray:) -> np.ndarray:
-      clusters: np.ndarray = self._run_gromos(N, D)
+    def __call__(self, N: int, D: nd.ndarray) -> NDArray[np.float32]:) -> NDArray[np.float32]:
+      clusters: NDArray[np.float32] = self._run_gromos(N, D)
       return clusters

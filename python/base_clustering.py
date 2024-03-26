@@ -1,4 +1,5 @@
 import numpy as np
+from numpy.typing import NDArray
 
 from clustering_run import clustering_run
 
@@ -20,35 +21,35 @@ class generic_cluster_method:
         prop_defaults = {
             "metric"    : "euclidean",
             "keep_data" : False,
-            "name"      : generic
+            "name"      : "generic"
         }
         for (prop, default) in prop_defaults.items():
             setattr(self, prop, kwargs.get(prop, default))         
         
-    def _check_input_arrays(self, X: np.ndarray|None, D: np.ndarray|None) -> bool:
+    def _check_input_arrays(self, X: NDArray[np.float32]|None, D: NDArray[np.float32]|None) -> bool:
         if self.metric=="precomputed": 
-            assert isinstance(D, np.ndarray) and isinstance(X, None)
+            assert isinstance(D, NDArray[np.float32]) and isinstance(X, None)
             return False
         else:
-            assert isinstance(X, np.ndarray) and isinstance(D, None)
+            assert isinstance(X, NDArray[np.float32]) and isinstance(D, None)
             return True
 
-    def _set_problem_size(self, X: np.ndarray|None, D: np.ndarray|None) -> int:
-            if isinstance(X, np.ndarray):
+    def _set_problem_size(self, X: NDArray[np.float32]|None, D: NDArray[np.float32]|None) -> int:
+            if isinstance(X, NDArray[np.float32]):
                 N = self.X.shape[0]
-            if isinstance(D, np.ndarray):
+            if isinstance(D, NDArray[np.float32]):
                 N = self.X.shape[0]
             return N
         
-    def _calculate_distance_matrix(self, X: np.ndarray) -> np.ndarray:
+    def _calculate_distance_matrix(self, X: NDArray[np.float32]) -> NDArray[np.float32]:
         # TODO pass to a triangular version
-        D: np.ndarray = pdist(X, metric=self.metric)
+        D: NDArray[np.float32] = pdist(X, metric=self.metric)
         if self.scaledist:
             D = (D - np.mean(D))/np.std(D)
         return squareform(D)
 
-    def _run_gromos(self, N: int, D: nd.ndarray) -> np.ndarray:
-        clusters: np.ndarray = -1*np.ones(self.N, dtype='int')
+    def _run_gromos(self, N: int, D: nd.ndarray) -> NDArray[np.float32]:
+        clusters: NDArray[np.float32] = -1*np.ones(self.N, dtype='int')
         a: int = 0
         while True:
             #index of point non assigned with highest number of neighbours
@@ -63,7 +64,7 @@ class generic_cluster_method:
                 break
         return clusters
 
-    def _finalize(self, clusters: np.ndarray) -> (set, np.ndarray, float):   
+    def _finalize(self, clusters: NDArray[np.float32]) -> (set, NDArray[np.float32], float):   
         # use hinting when calling from functions?
         medoids = set(list(clusters[clusters!=-1]))
         singletons = np.where(clusters==-1)[0]
@@ -83,6 +84,6 @@ class generic_cluster_method:
         # collect final descriptors
         medoids, singletons, inertia = self._finalize(clusters)
         # assemble dataclass
-        run = clustering_run(self.name, self.keep_data, kwargs, medoids, \
+        run = clustering_run(self.keep_data, kwargs, medoids, \
           clusters, singletons, inertia, X, D)
         return run 
