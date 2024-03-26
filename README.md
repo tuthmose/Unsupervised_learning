@@ -4,7 +4,7 @@ This repo includes algorithms related to:
 
 - Clustering
 - Cluster validation (internal / external)
-- Combinatorial optimizatio
+- Combinatorial optimization
 
 Algorithms included were selected because of:
 
