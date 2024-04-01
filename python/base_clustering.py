@@ -84,6 +84,10 @@ class generic_cluster_method:
         # collect final descriptors
         medoids, singletons, inertia = self._finalize(clusters)
         # assemble dataclass
-        run = clustering_run(self.keep_data, kwargs, medoids, \
-          clusters, singletons, inertia, X, D)
+        if keep_data:
+          run = clustering_run(self.keep_data, kwargs, medoids, \
+            clusters, singletons, inertia, X, D)
+        else:
+          run = clustering_run(self.keep_data, kwargs, medoids, \
+            clusters, singletons, inertia, None, None)
         return run 

@@ -1,5 +1,7 @@
-import numpy as np
+from dataclasses import dataclass
 from numpy.typing import NDArray
+
+import numpy as np
 
 @dataclass
 class clustering_run:
@@ -15,20 +17,15 @@ class clustering_run:
   # 1. how to return a custom datatype
   # 5. see if/how scikit learn accellerates
   # 6. add an ID, hash or timestamp
-  # 7. is or == in if
-  try:
-    if keywords.keep_data == True:
-      X: NDArray[np.float32]
-      D: NDArray[np.float32]
-  except:
-    print("keep_data not defined for this run")
-  medoids: list
+  X: NDArray[np.float32] | None
+  D: NDArray[np.float32] | None
+  medoids: NDArray
   nmedoids: int
-  clusters: list
+  clusters: NDArray
   # these are just aliases; once the first attribute is created,
   # keep the alias inside the class
   nclusters: int
-  singletons: int
-  noise: int
+  singletons: NDArray | bool
+  noise: NDArray | bool
   inertia: float
   keywords: dict
